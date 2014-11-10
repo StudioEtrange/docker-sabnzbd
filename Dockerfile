@@ -36,13 +36,16 @@ RUN apt-get update \
 RUN mkdir -p /config && mkdir -p /data
 
 WORKDIR /opt/sabnzbd
+
 RUN python tools/make_mo.py
 
 VOLUME /config
 VOLUME /data
 
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+#ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 8080
-
-
-CMD ["./SABnzbd.py", "--daemon", "--config-file /config", "--server :8080"]
+#CMD ["/opt/sabnzbd/SABnzbd.py", "-f /config/sabnzbd.ini", "-d" ,"--server 8080"]
+CMD /opt/sabnzbd/SABnzbd.py -f /config/sabnzbd.ini -d --server 8080
