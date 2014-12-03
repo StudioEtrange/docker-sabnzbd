@@ -73,7 +73,4 @@ EXPOSE 8080
 EXPOSE 8081
 
 # run command by default
-#CMD  ["/opt/sabnzbd/SABnzbd.py", "-f /config/sabnzbd", "--browser=0", "--server=:8080", "--https=8090"]
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf", "-n"]
-
-#CMD ["supervisord", "-n"]
