@@ -5,10 +5,6 @@ ENV SABNZBD_VERSION 0.7.20
 
 # Debian package & stuff -------------
 
-# Fix a Debianism of the nobody's uid being 65534
-#RUN usermod -u 99 nobody
-#RUN usermod -g 100 nobody
-
 RUN echo "deb http://http.debian.net/debian wheezy non-free" >> /etc/apt/sources.list \
 	&& echo "deb http://http.debian.net/debian wheezy-updates non-free" >> /etc/apt/sources.list
 
@@ -37,15 +33,13 @@ RUN apt-get update \
 
 # SABNZBD install -------------
 
-RUN mkdir -p /opt/sabnzbd && mkdir -p /config && mkdir -p /data
+RUN mkdir -p /opt/sabnzbd
 
 RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/$SABNZBD_VERSION.tar.gz" \
 	| tar -xzf - -C /opt/sabnzbd --strip-components=1
 
 RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
 	| tar -xzf - -C /usr/local/bin --strip-components=1
-
-RUN mkdir -p /config && mkdir -p /data
 
 WORKDIR /opt/sabnzbd
 
