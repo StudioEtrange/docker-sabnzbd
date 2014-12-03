@@ -1,6 +1,6 @@
 # docker sabnzbd by StudioEtrange
 
-* Run sabnzbd in an ubuntu docker container
+* Run sabnzbd inside a docker container built upon debian
 * Based on sabnzbd github source code
 * Choice of sabnzbd version
 * Install a concurrent (multithreaded) version of par2 from chuchusoft.com
