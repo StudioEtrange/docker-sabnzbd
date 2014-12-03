@@ -46,7 +46,7 @@ then go to http://localhost:8080
 ### Sabnzbd
 
 	Go to http://localhost:SABNZBD_HTTP_PORT/
-	and configure Sabnzbd
+	and configure sabnzbd
 
 ## Supervisor
 
