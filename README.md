@@ -9,7 +9,6 @@
 ## Quick start
 
 docker run -v DATA_DIR:/data -p 8080:8080 -p 8081:8081 studioetrange/docker-sabnzbd
-
 then go to http://localhost:8080
 
 ## Instruction 
@@ -17,15 +16,12 @@ then go to http://localhost:8080
 ### build from github source
 
 git pull https://github.com/StudioEtrange/docker-sabnzbd
-
 cd docker-sabnzbd
-
 docker build -t=studioetrange/docker-sabnzbd .
 
 ### build from docker registry
 
 docker pull studioetrange/docker-sabnzbd
-
 docker build -t=studioetrange/docker-sabnzbd .
 
 ### run sabnzbd 
