@@ -1,8 +1,6 @@
 FROM studioetrange/docker-debian:wheezy
 MAINTAINER StudioEtrange <nomorgan@gmail.com>
 
-ENV SABNZBD_VERSION 0.7.20
-
 # DEBIAN packages : SABNZBD dependencies install ----------
 RUN apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -17,6 +15,7 @@ RUN apt-get update \
 	
 
 # SABNZBD install -------------
+ENV SABNZBD_VERSION 0.7.20
 
 WORKDIR /opt/sabnzbd
 
