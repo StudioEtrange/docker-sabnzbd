@@ -6,10 +6,13 @@
 * Use supervisor to manage sabnzbd process
 * By default sabnzbd configuration and download files will be in /data/sabnzbd
 
-## Quick start
+	Please choose a version of sabnzbd, by default this is 'latest' which is the unstable branch of sabnzbd git repository
 
-	docker run -v DATA_DIR:/data -p 8080:8080 -p 8081:8081 studioetrange/docker-sabnzbd
-	then go to http://localhost:8080
+## Sample Usage
+
+	docker run -v $(pwd):/data -p 8080:8080 -p 8081:8081 studioetrange/docker-sabnzbd:0.7.20
+
+then go to http://localhost:8080
 
 ## Instruction 
 
@@ -26,11 +29,11 @@
 
 ### run sabnzbd 
 
-	docker run -v DATA_DIR:/data -p SABNZBD_HTTP_PORT:8080 -p SABNZBD_HTTPS_PORT:8081 -p SUPERVISOR_HTTP_WEB:9999 studioetrange/docker-sabnzbd
+	docker run -v DATA_DIR:/data -p SABNZBD_HTTP_PORT:8080 -p SABNZBD_HTTPS_PORT:8081 -p SUPERVISOR_HTTP_WEB:9999 studioetrange/docker-sabnzbd:SABNZBD_VERSION
 
 ### run sabnzbd daemonized
 
-	docker run -d -v DATA_DIR:/data -p SABNZBD_HTTP_PORT:8080 -p SABNZBD_HTTPS_PORT:8081 -p SUPERVISOR_HTTP_WEB:9999 studioetrange/docker-sabnzbd
+	docker run -d -v DATA_DIR:/data -p SABNZBD_HTTP_PORT:8080 -p SABNZBD_HTTPS_PORT:8081 -p SUPERVISOR_HTTP_WEB:9999 studioetrange/docker-sabnzbd:SABNZBD_VERSION
 
 
 ### run a shell inside this container (without sabnzdbd running)
