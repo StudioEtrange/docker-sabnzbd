@@ -54,6 +54,6 @@ then go to http://localhost:8080
 	Go to http://localhost:SABNZBD_HTTP_PORT/
 	and configure sabnzbd
 
-## Supervisor
+### Supervisor
 
 	Go to http://localhost:SUPERVISOR_HTTP_WEB/
