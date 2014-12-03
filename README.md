@@ -11,6 +11,8 @@
 
 ## Sample Usage
 
+for running sabnzbd version 0.7.20
+
 	docker run -d -v .:/data -p 8080:8080 studioetrange/docker-sabnzbd:0.7.20
 
 then go to http://localhost:8080
