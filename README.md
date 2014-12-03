@@ -6,7 +6,8 @@
 * Use supervisor to manage sabnzbd process
 * By default sabnzbd configuration and download files will be in /data/sabnzbd
 
-	**_Please choose a version of sabnzbd, by default this is 'latest' which is the unstable branch of sabnzbd git repository_**
+
+**_Please choose a version of sabnzbd, by default this is 'latest' which is the unstable branch of sabnzbd git repository_**
 
 ## Sample Usage
 
