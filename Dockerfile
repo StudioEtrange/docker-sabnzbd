@@ -1,26 +1,11 @@
-FROM debian:wheezy
+FROM studioetrange/docker-debian:wheezy
 MAINTAINER StudioEtrange <nomorgan@gmail.com>
 
 ENV SABNZBD_VERSION 0.7.20
 
-# Debian package & stuff -------------
-
-RUN echo "deb http://http.debian.net/debian wheezy non-free" >> /etc/apt/sources.list \
-	&& echo "deb http://http.debian.net/debian wheezy-updates non-free" >> /etc/apt/sources.list
-
-# DEBIAN packages
-RUN apt-get update \
-	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-						supervisor \
-						unrar \
-						unzip \
-						curl \
-	&& rm -rf /var/lib/apt/lists/*
-
 # DEBIAN packages : SABNZBD dependencies install ----------
 RUN apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-						python \
 						python-cheetah \
 						python-configobj \
 						python-feedparser \
@@ -33,7 +18,7 @@ RUN apt-get update \
 
 # SABNZBD install -------------
 
-RUN mkdir -p /opt/sabnzbd
+WORKDIR /opt/sabnzbd
 
 RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/$SABNZBD_VERSION.tar.gz" \
 	| tar -xzf - -C /opt/sabnzbd --strip-components=1
@@ -41,19 +26,11 @@ RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/$SABNZBD_VERSION.tar
 RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
 	| tar -xzf - -C /usr/local/bin --strip-components=1
 
-WORKDIR /opt/sabnzbd
-
 RUN python tools/make_mo.py
 
 # add ffmpeg ? : https://github.com/needo37/sabnzbd/blob/master/Dockerfile
 
-# PURGE -------------
-
-RUN apt-get purge -y --auto-remove curl \
-	&& rm -rf /var/lib/apt/lists/*
-
 # SUPERVISOR -------------
-COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisord-sabnzbd.conf /etc/supervisor/conf.d/supervisord-sabnzbd.conf
 
 # DOCKER -------------

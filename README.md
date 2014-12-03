@@ -30,10 +30,9 @@ then go to http://localhost:8080
 	cd docker-sabnzbd
 	docker build -t=studioetrange/docker-sabnzbd .
 
-### build from docker registry
+### retrieve image from docker registry
 
 	docker pull studioetrange/docker-sabnzbd
-	docker build -t=studioetrange/docker-sabnzbd .
 
 ### run sabnzbd 
 
