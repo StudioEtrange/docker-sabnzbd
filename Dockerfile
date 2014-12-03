@@ -1,7 +1,7 @@
 FROM debian:wheezy
 MAINTAINER StudioEtrange <nomorgan@gmail.com>
 
-ENV SABNZBD_VERSION 0.7.x
+ENV SABNZBD_VERSION 0.7.20
 
 # Debian package & stuff -------------
 
