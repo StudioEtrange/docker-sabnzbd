@@ -19,8 +19,8 @@ then go to http://localhost:8080
 ## Version and Tag
 
 * Each tag is a different version of Sabnzbd
-* latest is the latest sabznbd version available through this repository
-* 0.7.x is the development version from sabnzbd git repository
+* latest is the latest stable sabznbd version available through this repository
+* 0.7.x is the development version from sabnzbd git repository and will be updated each time this image is used
 
 ## Instruction 
 
