@@ -17,17 +17,16 @@ RUN apt-get update \
 # SABNZBD install -------------
 ENV SABNZBD_VERSION 0.7.20
 
-WORKDIR /opt/sabnzbd
+RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
+	| tar -xzf - -C /usr/local/bin --strip-components=1
+
+# add ffmpeg ? : https://github.com/needo37/sabnzbd/blob/master/Dockerfile
 
 RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/$SABNZBD_VERSION.tar.gz" \
 	| tar -xzf - -C /opt/sabnzbd --strip-components=1
 
-RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
-	| tar -xzf - -C /usr/local/bin --strip-components=1
-
+WORKDIR /opt/sabnzbd
 RUN python tools/make_mo.py
-
-# add ffmpeg ? : https://github.com/needo37/sabnzbd/blob/master/Dockerfile
 
 # SUPERVISOR -------------
 COPY supervisord-sabnzbd.conf /etc/supervisor/conf.d/supervisord-sabnzbd.conf
