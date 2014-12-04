@@ -20,7 +20,7 @@ then go to http://localhost:8080
 
 * Each tag is a different version of Sabnzbd
 * latest is the latest stable sabznbd version available through this repository
-* 0.7.x is the development version from sabnzbd git repository and will be updated each time this image is used
+* 0.7.x is the development version from sabnzbd git repository. But you should build the image yourself OR use /opt/sabnzbd-update.sh to have an uptodate image.
 
 ## Instruction 
 
