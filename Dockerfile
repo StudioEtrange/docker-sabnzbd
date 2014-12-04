@@ -22,10 +22,10 @@ RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-li
 
 # add ffmpeg ? : https://github.com/needo37/sabnzbd/blob/master/Dockerfile
 
+WORKDIR /opt/sabnzbd
 RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/$SABNZBD_VERSION.tar.gz" \
 	| tar -xzf - -C /opt/sabnzbd --strip-components=1
 
-WORKDIR /opt/sabnzbd
 RUN python tools/make_mo.py
 
 # SUPERVISOR -------------
