@@ -10,7 +10,7 @@
 
 ## Sample Usage
 
-to run latest sabnzbd version 0.7.20 :
+to run latest sabnzbd version :
 
 	docker run -d -v $(pwd):/data -p 8080:8080 studioetrange/docker-sabnzbd:latest
 
