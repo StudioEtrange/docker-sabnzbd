@@ -19,8 +19,9 @@ then go to http://localhost:8080
 ## Version and Tag
 
 * docker-tag:latest or github-branch:master ==> latest stable sabznbd version available through this repository
-* docker-tag:X.X.X or github-branch:X.X.X ==> sabnzbd version X.X.X
-* docker-tag:dev or github-branch:0.7.x ==> development version from sabnzbd git repository
+* github-branch:master ==> work in progress based on latest stable sabznbd version available through this repository
+* docker-tag:X.X.X connected to github-branch:X.X.X ==> sabnzbd version X.X.X
+* docker-tag:dev connected to github-branch:0.7.x ==> development version from sabnzbd git repository
 
 In dev case, to have an uptodate image you should
 * build the docker image yourself (see build from github souce below)
