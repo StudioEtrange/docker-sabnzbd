@@ -15,7 +15,7 @@ RUN apt-get update \
 	
 
 # SABNZBD install -------------
-ENV SABNZBD_VERSION 0.8.0Beta1
+ENV SABNZBD_VERSION 0.7.7
 
 RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
 	| tar -xzf - -C /usr/local/bin --strip-components=1
