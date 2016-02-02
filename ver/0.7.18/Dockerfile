@@ -15,7 +15,7 @@ RUN apt-get update \
 	
 
 # SABNZBD install -------------
-ENV SABNZBD_VERSION 0.8.0Beta4
+ENV ITEM_VERSION 0.7.18
 
 RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
 	| tar -xzf - -C /usr/local/bin --strip-components=1
@@ -23,7 +23,7 @@ RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-li
 # add ffmpeg ? : https://github.com/needo37/sabnzbd/blob/master/Dockerfile
 
 WORKDIR /opt/sabnzbd
-RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/$SABNZBD_VERSION.tar.gz" \
+RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/$ITEM_VERSION.tar.gz" \
 	| tar -xzf - -C /opt/sabnzbd --strip-components=1
 
 RUN python tools/make_mo.py
