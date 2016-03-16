@@ -1,9 +1,9 @@
-# docker sabnzbd by StudioEtrange
+# docker sabnzbd by StudioEtrange *broken for now*
 
 * Run sabnzbd inside a docker container built upon debian
 * Based on sabnzbd github source code
 * Choice of sabnzbd version
-* Install a concurrent (multithreaded) version of par2 from chuchusoft.com
+* Install a concurrent (multithreaded) version of par2 from chuchusoft.com *TODO : migrate to https://github.com/Parchive/par2cmdline ?*
 * Use supervisor to manage sabnzbd process
 * By default sabnzbd configuration and download files will be in /data/sabnzbd _(You should map a docker volume to /data)_
 
