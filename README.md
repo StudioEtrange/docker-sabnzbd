@@ -1,9 +1,9 @@
-# docker sabnzbd by StudioEtrange *broken for now*
+# docker sabnzbd by StudioEtrange
 
 * Run sabnzbd inside a docker container built upon debian
 * Based on sabnzbd github source code
 * Choice of sabnzbd version
-* Install a concurrent (multithreaded) version of par2 from chuchusoft.com *TODO : migrate to https://github.com/Parchive/par2cmdline ?*
+* Install a concurrent (multithreaded) version of par2
 * Use supervisor to manage sabnzbd process
 * By default sabnzbd configuration and download files will be in /data/sabnzbd _(You should map a docker volume to /data)_
 
@@ -20,7 +20,7 @@ then go to http://localhost:8080
 
 Available tag for studioetrange/docker-couchpotato:__TAG__
 
-	latest, 2.3.2RC2, 2.3.2RC1, 2.3.1, 2.3.1RC2, 2.3.1RC1, 2.3.1Beta1, 2.3.0, 2.3.0RC2, 2.3.0RC1, 2.3.0Alpha2, 2.3.0Alpha1, 2.2.1, 2.2.1RC2, 2.2.1RC1, 2.2.0, 2.2.0RC3, 2.2.0RC2, 2.2.0RC1, 2.2.0Beta2, 2.2.0Beta1, 2.2.0Alpha3, 2.2.0Alpha2, 2.2.0Alpha1, 2.1.0, 2.1.0RC1, 2.1.0Beta1, 2.0.1, 2.0.1RC2, 2.0.1RC1, 2.0.0, 2.0.0RC3, 2.0.0RC2, 2.0.0RC1, 2.0.0Beta1, 2.0.0Alpha1, 1.2.3, 1.2.2, 1.2.1, 1.2.1RC1, 1.2.1Beta1, 1.2.0, 1.2.0RC1, 1.2.0Beta1, 1.1.1, 1.1.1RC3, 1.1.1RC2, 1.1.1RC1, 1.1.0, 1.1.0RC4, 1.1.0RC3, 1.1.0RC2, 1.1.0RC1, 1.1.0Beta1, 1.0.3, 1.0.2, 1.0.1, 1.0.1RC1, 1.0.0, 1.0.0RC5, 1.0.0RC4, 1.0.0RC3, 1.0.0RC2, 1.0.0RC1, 0.8.0Beta6, 0.8.0Beta5, 0.8.0Beta4, 0.8.0Beta3, 0.8.0Beta2, 0.8.0Beta1, 0.8.0Alpha2, 0.8.0Alpha1, 0.7.20, 0.7.20RC2, 0.7.20RC1, 0.7.19, 0.7.19RC4, 0.7.19RC3, 0.7.19RC2, 0.7.19RC1, 0.7.18, 0.7.18RC1, 0.7.17, 0.7.17RC2, 0.7.17RC1, 0.7.17Beta3, 0.7.17Beta2, 0.7.17Beta1, 0.7.16, 0.7.15, 0.7.14, 0.7.13, 0.7.12, 0.7.11, 0.7.11RC2, 0.7.11RC1, 0.7.10, 0.7.10RC1, 0.7.9, 0.7.9RC1, 0.7.8, 0.7.8RC1, 0.7.7, 0.7.6, 0.7.6Final, 0.7.6Beta2, 0.7.6Beta1, 0.7.5, 0.7.5RC1, 0.7.4, 0.7.4RC2, 0.7.4RC1, 0.7.4Beta3, 0.7.4Beta2, 0.7.4Beta1, 0.7.3, 0.7.3RC1, 0.7.3Beta2, 0.7.3Beta1, 0.7.2, 0.7.2RC2, 0.7.2RC1, 0.7.1, 0.7.1RC5, 0.7.1RC4, 0.7.1RC3, 0.7.1RC2, 0.7.1RC1, 0.7.0, 0.7.0RC2, 0.7.0RC1, 0.7.0Beta8, 0.7.0Beta7, 0.7.0Beta6, 0.7.0Beta6u, 0.7.0Beta5, 0.7.0Beta4, 0.7.0Beta3, 0.7.0Beta2, 0.7.0Beta1, 0.7.0Alpha3, 0.7.0Alpha2, 0.7.0Alpha1, 0.6.15, 0.6.15RC1, 0.6.14, 0.6.12, 0.6.11, 0.6.11RC1, 0.6.10, 0.6.10RC1, 0.6.9, 0.6.9RC2, 0.6.9RC1, 0.6.8, 0.6.8RC1, 0.6.7, 0.6.6, 0.6.5, 0.6.4, 0.6.3, 0.6.2, 0.6.1, 0.6.0
+	latest, 2.3.2RC2, 2.3.2RC1, 2.3.1, 2.3.1RC2, 2.3.1RC1, 2.3.1Beta1, 2.3.0, 2.3.0RC2, 2.3.0RC1, 2.3.0Alpha2, 2.3.0Alpha1, 2.2.1, 2.2.1RC2, 2.2.1RC1, 2.2.0, 2.2.0RC3, 2.2.0RC2, 2.2.0RC1, 2.2.0Beta2, 2.2.0Beta1, 2.2.0Alpha3, 2.2.0Alpha2, 2.2.0Alpha1, 2.1.0, 2.1.0RC1, 2.1.0Beta1, 2.0.1, 2.0.1RC2, 2.0.1RC1, 2.0.0, 2.0.0RC3, 2.0.0RC2, 2.0.0RC1, 2.0.0Beta1, 2.0.0Alpha1, 1.2.3, 1.2.2, 1.2.1, 1.2.1RC1, 1.2.1Beta1, 1.2.0, 1.2.0RC1, 1.2.0Beta1, 1.1.1, 1.1.1RC3, 1.1.1RC2, 1.1.1RC1, 1.1.0, 1.1.0RC4, 1.1.0RC3, 1.1.0RC2, 1.1.0RC1, 1.1.0Beta1, 1.0.3, 1.0.2, 1.0.1, 1.0.1RC1, 1.0.0, 1.0.0RC5, 1.0.0RC4, 1.0.0RC3, 1.0.0RC2, 1.0.0RC1, 0.8.0Beta6, 0.8.0Beta5, 0.8.0Beta4, 0.8.0Beta3, 0.8.0Beta2, 0.8.0Beta1, 0.8.0Alpha2, 0.8.0Alpha1, 0.7.20, 0.7.20RC2, 0.7.20RC1, 0.7.19, 0.7.19RC4, 0.7.19RC3, 0.7.19RC2, 0.7.19RC1, 0.7.18, 0.7.18RC1, 0.7.17, 0.7.17RC2, 0.7.17RC1, 0.7.17Beta3, 0.7.17Beta2, 0.7.17Beta1, 0.7.16, 0.7.15, 0.7.14
 
 Current latest tag is version __2.3.2RC2__
 

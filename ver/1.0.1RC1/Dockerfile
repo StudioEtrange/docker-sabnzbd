@@ -11,6 +11,7 @@ RUN apt-get update \
 						python-openssl \
 						python-support \
 						python-yenc \
+						libwww-perl devscripts build-essential git debhelper dh-autoreconf libtbb-dev \
 	&& rm -rf /var/lib/apt/lists/*
 	
 
@@ -22,7 +23,7 @@ ENV ITEM_VERSION 1.0.1RC1
 
 # par2 Multicore
 RUN mkdir /par2tbb \
-	&& cd par2tbb \
+	&& cd /par2tbb \
 	&& git clone https://github.com/jcfp/debpkg-par2tbb.git \
 	&& cd debpkg-par2tbb \
 	&& uscan --force-download \
