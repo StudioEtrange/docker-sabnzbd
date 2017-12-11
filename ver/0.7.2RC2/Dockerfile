@@ -17,8 +17,20 @@ RUN apt-get update \
 # SABNZBD install -------------
 ENV ITEM_VERSION 0.7.2RC2
 
-RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
-	| tar -xzf - -C /usr/local/bin --strip-components=1
+#RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
+#	| tar -xzf - -C /usr/local/bin --strip-components=1
+
+# par2 Multicore
+RUN mkdir /par2tbb \
+	&& cd par2tbb \
+	&& git clone https://github.com/jcfp/debpkg-par2tbb.git \
+	&& cd debpkg-par2tbb \
+	&& uscan --force-download \
+	&& dpkg-buildpackage -S -us -uc -d \
+	&& dpkg-source -x ../par2cmdline-tbb_*.dsc \
+	&& cd par2cmd* \
+	&& ./configure --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --disable-silent-rules --libexecdir=${prefix}/lib/x86_64-linux-gnu --libdir=${prefix}/lib/x86_64-linux-gnu \
+	&& make install
 
 # add ffmpeg ? : https://github.com/needo37/sabnzbd/blob/master/Dockerfile
 
