@@ -3,11 +3,6 @@ set -e
 
 _CURRENT_FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$_CURRENT_FILE_DIR"
-#!/bin/bash
-set -e
-
-_CURRENT_FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "$_CURRENT_FILE_DIR"
 
 # PARAMETERS ----------------------------
 GITHUB_REPO="sabnzbd/sabnzbd"
