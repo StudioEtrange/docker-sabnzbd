@@ -1,58 +1,124 @@
-FROM studioetrange/docker-debian:wheezy
-MAINTAINER StudioEtrange <nomorgan@gmail.com>
+FROM debian:stretch
+LABEL maintener "StudioEtrange <nomorgan@gmail.com>"
+LABEL description "Sabnzbd on docker"
 
-# DEBIAN packages : SABNZBD dependencies install ----------
+# NOTE : https://sabnzbd.org/wiki/installation/install-off-modules#toc8
+# NOTE par2 multicore : https://sabnzbd.org/wiki/installation/multicore-par2
+
+# PARAMETERS -------------------------------------------------------
+
+# Service generic parameters
+ENV SERVICE_NAME sabnzbd
+ENV SERVICE_VERSION 1.1.0
+# User id which will launch the service start command (NOTE : supervisord itself is run with root)
+ENV SERVICE_USER 0
+ENV SERVICE_PORT 8080
+ENV SERVICE_PORT_SECURED 8081
+ENV SERVICE_INSTALL_DIR /opt/${SERVICE_NAME}
+
+# Specific service parameters
+# path to store service data and configuration
+ENV SERVICE_DATA_PATH /data/${SERVICE_NAME}
+# external paths used by service
+ENV SERVICE_VOLUME_PATH ${SERVICE_DATA_PATH} /download/complete /download/incomplete /doanload/vault
+# args used by supervisor context for running service
+ENV SERVICE_EXPORT_ARG SERVICE_DATA_PATH SERVICE_PORT SERVICE_PORT_SECURED SERVICE_INSTALL_DIR
+
+# System parameters
+ENV PYTHON_MAJOR_VERSION 2
+ENV PYTHON_VERSION 2.7.15
+ENV MINICONDA_VERSION 4.5.11
+ENV CONDA_ENV ${SERVICE_NAME}
+ENV PATH /opt/miniconda/bin:$PATH
+
+
+# TREE FILESYSTEM --------------------------------------------------
+RUN mkdir -p /etc/supervisor/conf.d && mkdir -p /var/log/supervisor && mkdir -p "${SERVICE_INSTALL_DIR}"
+
+WORKDIR "${SERVICE_INSTALL_DIR}"
+
+
+
+# COMPONENTS -------------------------------------------------------
+
+# debian packages
+RUN echo "deb http://httpredir.debian.org/debian stretch main non-free" >> /etc/apt/sources.list \
+	&& echo "deb http://httpredir.debian.org/debian stretch-updates main non-free" >> /etc/apt/sources.list \
+	&& echo "deb http://httpredir.debian.org/debian stretch-backports main non-free" >> /etc/apt/sources.list
+
+
 RUN apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-						python-cheetah \
-						python-configobj \
-						python-feedparser \
-						python-dbus \
-						python-openssl \
-						python-support \
-						python-yenc \
-						libwww-perl devscripts build-essential git debhelper dh-autoreconf libtbb-dev \
+					   ca-certificates curl wget openssl libssl-dev bzip2 unrar-free locales \
+					   dirmngr gnupg2 unzip p7zip-full \
+	&& apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 98703123E0F52B2BE16D586EF13930B14BB9F05F \
+	&& echo "deb http://ppa.launchpad.net/jcfp/sab-addons/ubuntu xenial main" >> /etc/apt/sources.list.d/jcfp-sabaddons.list \
+	&& echo "deb-src http://ppa.launchpad.net/jcfp/sab-addons/ubuntu xenial main" >> /etc/apt/sources.list.d/jcfp-sabaddons.list \
+	&& apt-get update \
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+					   par2-tbb \
 	&& rm -rf /var/lib/apt/lists/*
-	
 
-# SABNZBD install -------------
-ENV ITEM_VERSION 1.1.0
 
-#RUN curl -SL "http://www.chuchusoft.com/par2_tbb/par2cmdline-0.4-tbb-20100203-lin64.tar.gz" \
-#	| tar -xzf - -C /usr/local/bin --strip-components=1
+# locales
+# https://stackoverflow.com/a/38553499
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8
 
-# par2 Multicore
-RUN mkdir /par2tbb \
-	&& cd /par2tbb \
-	&& git clone https://github.com/jcfp/debpkg-par2tbb.git \
-	&& cd debpkg-par2tbb \
-	&& uscan --force-download \
-	&& dpkg-buildpackage -S -us -uc -d \
-	&& dpkg-source -x ../par2cmdline-tbb_*.dsc \
-	&& cd par2cmd* \
-	&& ./configure --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --disable-silent-rules --libexecdir=${prefix}/lib/x86_64-linux-gnu --libdir=${prefix}/lib/x86_64-linux-gnu \
-	&& make install
+ENV LANG en_US.UTF-8 
 
-# add ffmpeg ? : https://github.com/needo37/sabnzbd/blob/master/Dockerfile
+# Python
+RUN MINICONDA_FILE=Miniconda${PYTHON_MAJOR_VERSION}-${MINICONDA_VERSION}-Linux-x86_64.sh && \
+    wget https://repo.continuum.io/miniconda/${MINICONDA_FILE} -O /opt/${MINICONDA_FILE} && \
+    chmod +x /opt/$MINICONDA_FILE && \
+    /opt/$MINICONDA_FILE -b -p /opt/miniconda && \
+    rm /opt/$MINICONDA_FILE
 
-WORKDIR /opt/sabnzbd
-RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/$ITEM_VERSION.tar.gz" \
-	| tar -xzf - -C /opt/sabnzbd --strip-components=1
+# create dedicated environment
+RUN /opt/miniconda/bin/conda create -y -n ${CONDA_ENV} python=${PYTHON_VERSION}
 
-RUN python tools/make_mo.py
+# install supervisor
+RUN bash -c "source activate ${CONDA_ENV} && \
+                pip install supervisor==3.3.4"
 
-# SUPERVISOR -------------
-COPY supervisord-sabnzbd.conf /etc/supervisor/conf.d/supervisord-sabnzbd.conf
+# SERVICE INSTALL -------------------------------------------------------
+RUN curl -k -SL "https://github.com/sabnzbd/sabnzbd/archive/${SERVICE_VERSION}.tar.gz" \
+	| tar -xzf - -C ${SERVICE_INSTALL_DIR} --strip-components=1
 
-# DOCKER -------------
+
+# install dependencies
+RUN bash -c "source activate ${CONDA_ENV} && \
+                pip install cheetah3==3.1.0 cryptography==2.4.2 sabyenc==3.3.5 && \
+                python tools/make_mo.py"
+
+
+# SUPERVISOR -------------------------------------------------------
+# add supervisor default configuration
+COPY supervisord.conf /etc/supervisor/supervisord.conf
+# add supervisor service configuration
+COPY supervisord-${SERVICE_NAME}.conf /etc/supervisor/conf.d/supervisord-${SERVICE_NAME}.conf
+
+
+# DOCKER RUN PARAMETERS ----------------------------------------------
+# will contain service data and configuration
 VOLUME /data
+# will contain root of downloaded files
+VOLUME /download
 
-# Supervisord web interface -------
+# supervisor web interface
 EXPOSE 9999
-# sabnzbd http port
-EXPOSE 8080
-# sabnzbd https port
-EXPOSE 8081
 
-# run command by default
+# service port
+EXPOSE ${SERVICE_PORT}
+
+# service port secured
+EXPOSE ${SERVICE_PORT_SECURED}
+
+# entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# default command
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf", "-n"]

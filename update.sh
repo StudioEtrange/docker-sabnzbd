@@ -28,7 +28,7 @@ function update_dockerfile() {
 	local path=$1
 	local version=$2
 
-	sed -i.bak -e "s,ENV ITEM_VERSION.*,ENV ITEM_VERSION $version," "$path"
+	sed -i.bak -e "s,ENV SERVICE_VERSION.*,ENV SERVICE_VERSION $version," "$path"
 	rm -f "$path".bak
 }
 
@@ -271,6 +271,7 @@ for rel in $releases; do
 	mkdir -p "ver/$version_number"
 	cp -f supervisord* "ver/$version_number"
 	cp -f Dockerfile "ver/$version_number/Dockerfile"
+	cp -f docker-entrypoint.sh "ver/$version_number/docker-entrypoint.sh"
 	update_dockerfile "ver/$version_number/Dockerfile" "$version_full_number"
 	echo
 done
@@ -285,3 +286,10 @@ echo
 echo "************************************"
 echo " YOU SHOULD NOW ADD MISSING VERSION THROUGH"
 echo " Docker Hub WebUI : AUTOMATED BUILD REPOSITORY"
+
+
+
+
+
+
+
