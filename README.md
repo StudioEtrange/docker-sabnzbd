@@ -13,7 +13,7 @@
 
 for running latest stable version of sabnzbd :
 
-	docker run -d -h $(hostname) -v $(pwd):/data -p 8080:8080 studioetrange/docker-sabnzbd
+	docker run --name sabnzbd -d -h $(hostname) -v $(pwd):/data -p 8080:8080 studioetrange/docker-sabnzbd
 
 then go to http://hostname:8080
 
@@ -41,7 +41,7 @@ Current latest tag is version __2.3.6Beta1__
 
 	mkdir -p download
 	mkdir -p data
-	docker run --name sabnzbd -h $(hostname) -d -v $(pwd)/data:/data -v $(pwd)/download:/download -p 8080:8080 -e SERVICE_USER=$(id -u):$(id -g) -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro studioetrange/docker-sabnzbd
+	docker run --name sabnzbd -h $(hostname) -d -v $(pwd)/data:/data -v $(pwd)/download:/download -p 8080:8080 -p 8081:8081 -e SERVICE_USER=$(id -u):$(id -g) -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro studioetrange/docker-sabnzbd
 
 sabnzbd needs to know fully qualified domain name (FQDN) used to access it. And these authorized valued are in config file at `whitelist` value, which is populated by defaut whih container `hostname`
 
@@ -55,15 +55,27 @@ Inside container
 `/data/sabnzbd` will contain sabnzbd tautulli and files
 `/download` is the root folder of your downloaded files. It contains `/complete` `/incomplete` for complete/incomplete files and `/vault` for watched nzb files to download
 
-If host `<data path>` or `<download path>` does not exist, docker will create it automaticly with root user. You should use mkdir before launching docker to control ownership.
+If any path of theses volumes do not exist on the host while your are mounting them inside container, docker will create it automaticly with root user. You should use mkdir before launching docker to control ownership.
 
-### Access supervisor control inside a running instance
+
+### Access to a running instance
+
+supervisorctl access
 
 	docker exec -it sabnzbd bash -c ". activate sabnzbd && supervisorctl"
+	
+bash access
+
+	docker exec -it sabnzbd bash -c ". activate sabnzbd"
+ 
 
 ### Test a shell inside a new container without sabnzbd running
 
-	docker run -it studioetrange/docker-sabnzbd bash
+	docker run -it --rm studioetrange/docker-sabnzbd bash
+
+### Stop and destroy all previously launched services
+
+	docker stop sabnzbd && docker rm sabnzbd
 
 ## Access point
 

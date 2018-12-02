@@ -20,7 +20,7 @@ ENV SERVICE_INSTALL_DIR /opt/${SERVICE_NAME}
 # path to store service data and configuration
 ENV SERVICE_DATA_PATH /data/${SERVICE_NAME}
 # external paths used by service
-ENV SERVICE_VOLUME_PATH ${SERVICE_DATA_PATH} /download/complete /download/incomplete /doanload/vault
+ENV SERVICE_VOLUME_PATH ${SERVICE_DATA_PATH} /download/complete /download/incomplete /download/vault
 # args used by supervisor context for running service
 ENV SERVICE_EXPORT_ARG SERVICE_DATA_PATH SERVICE_PORT SERVICE_PORT_SECURED SERVICE_INSTALL_DIR
 
