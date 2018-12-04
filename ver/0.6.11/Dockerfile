@@ -20,7 +20,7 @@ ENV SERVICE_INSTALL_DIR /opt/${SERVICE_NAME}
 # path to store service data and configuration
 ENV SERVICE_DATA_PATH /data/${SERVICE_NAME}
 # external paths used by service
-ENV SERVICE_VOLUME_PATH ${SERVICE_DATA_PATH} /download/complete /download/incomplete /doanload/vault
+ENV SERVICE_VOLUME_PATH ${SERVICE_DATA_PATH} /download/complete /download/incomplete /download/vault
 # args used by supervisor context for running service
 ENV SERVICE_EXPORT_ARG SERVICE_DATA_PATH SERVICE_PORT SERVICE_PORT_SECURED SERVICE_INSTALL_DIR
 
@@ -47,9 +47,10 @@ RUN echo "deb http://httpredir.debian.org/debian stretch main non-free" >> /etc/
 	&& echo "deb http://httpredir.debian.org/debian stretch-backports main non-free" >> /etc/apt/sources.list
 
 
+# NOTE : sabnzbd needs unrar non free
 RUN apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-					   ca-certificates curl wget openssl libssl-dev bzip2 unrar-free locales \
+					   ca-certificates curl wget openssl libssl-dev bzip2 unrar locales \
 					   dirmngr gnupg2 unzip p7zip-full \
 	&& apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 98703123E0F52B2BE16D586EF13930B14BB9F05F \
 	&& echo "deb http://ppa.launchpad.net/jcfp/sab-addons/ubuntu xenial main" >> /etc/apt/sources.list.d/jcfp-sabaddons.list \
