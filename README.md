@@ -12,8 +12,9 @@
 ## Quick Usage
 
 for running latest stable version of sabnzbd :
-
-	docker run --name sabnzbd -d -h $(hostname) -v $(pwd):/data -p 8080:8080 studioetrange/docker-sabnzbd
+	
+	mkdir -p data
+	docker run --name sabnzbd -d -h $(hostname) -v $(pwd)/data:/data -p 8080:8080 studioetrange/docker-sabnzbd
 
 then go to http://hostname:8080
 
