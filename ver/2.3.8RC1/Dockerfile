@@ -9,7 +9,7 @@ LABEL description "Sabnzbd on docker"
 
 # Service generic parameters
 ENV SERVICE_NAME sabnzbd
-ENV SERVICE_VERSION 2.3.8
+ENV SERVICE_VERSION 2.3.8RC1
 # User id which will launch the service start command (NOTE : supervisord itself is run with root)
 ENV SERVICE_USER 0
 ENV SERVICE_PORT 8080
