@@ -25,9 +25,10 @@ ENV SERVICE_VOLUME_PATH ${SERVICE_DATA_PATH} /download/complete /download/incomp
 ENV SERVICE_EXPORT_ARG SERVICE_DATA_PATH SERVICE_PORT SERVICE_PORT_SECURED SERVICE_INSTALL_DIR
 
 # System parameters
-ENV PYTHON_MAJOR_VERSION 2
-ENV PYTHON_VERSION 2.7.15
-ENV MINICONDA_VERSION 4.5.11
+ENV MINICONDA_PYTHON_MAJOR_VERSION 3
+# sabnzbd still needs python 2 version
+ENV SERVICE_PYTHON_VERSION 2.7.17
+ENV MINICONDA_VERSION 4.7.12.1
 ENV CONDA_ENV ${SERVICE_NAME}
 ENV PATH /opt/miniconda/bin:$PATH
 
@@ -70,14 +71,14 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 ENV LANG en_US.UTF-8 
 
 # Python
-RUN MINICONDA_FILE=Miniconda${PYTHON_MAJOR_VERSION}-${MINICONDA_VERSION}-Linux-x86_64.sh && \
+RUN MINICONDA_FILE=Miniconda${MINICONDA_PYTHON_MAJOR_VERSION}-${MINICONDA_VERSION}-Linux-x86_64.sh && \
     wget https://repo.continuum.io/miniconda/${MINICONDA_FILE} -O /opt/${MINICONDA_FILE} && \
     chmod +x /opt/$MINICONDA_FILE && \
     /opt/$MINICONDA_FILE -b -p /opt/miniconda && \
     rm /opt/$MINICONDA_FILE
 
 # create dedicated environment
-RUN /opt/miniconda/bin/conda create -y -n ${CONDA_ENV} python=${PYTHON_VERSION}
+RUN /opt/miniconda/bin/conda create -y -n ${CONDA_ENV} python=${SERVICE_PYTHON_VERSION}
 
 # install supervisor
 RUN bash -c "source activate ${CONDA_ENV} && \
