@@ -44,11 +44,12 @@ Current latest tag is version __2.3.9__
 	mkdir -p data
 	docker run --name sabnzbd -h $(hostname) -d -v $(pwd)/data:/data -v $(pwd)/download:/download -p 8080:8080 -p 8081:8081 -e SERVICE_USER=$(id -u):$(id -g) -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro studioetrange/docker-sabnzbd
 
-sabnzbd needs to know fully qualified domain name (FQDN) used to access it. And these authorized valued are in config file at `whitelist` value, which is populated by defaut whih container `hostname`
+sabnzbd needs to know fully qualified domain name (FQDN) used to access it. And these authorized valued are in config file at `whitelist` value, which is populated by defaut whih container `hostname`. You can add other domain name with the env var `HOST_WHITELIST_ENTRIES`
+
 
 ### Full run parameters
 
-	docker run --name sabnzbd -h $(hostname) -d -v <data path>:/data -v <download path>:/download -p <sabnzbd http port>:8080 -p <sabnzbd https port>:8081 -e SERVICE_USER=<uid[:gid]>  -p <supervisor manager http port>:9999 -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro studioetrange/docker-sabnzbd:<version>
+	docker run --name sabnzbd -h $(hostname) -e HOST_WHITELIST_ENTRIES="sabnzbd.mydomain.org, sabnzbd.alt.com" -d -v <data path>:/data -v <download path>:/download -p <sabnzbd http port>:8080 -p <sabnzbd https port>:8081 -e SERVICE_USER=<uid[:gid]> -p <supervisor manager http port>:9999 -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro studioetrange/docker-sabnzbd:<version>
 
 ### Volumes
 

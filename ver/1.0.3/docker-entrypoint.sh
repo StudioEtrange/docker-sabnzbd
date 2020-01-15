@@ -122,6 +122,19 @@ if [ "$1" = "supervisord" ]; then
     su "${SERVICE_USER_NAME}" -c "mkdir -p ${p}"
   done
 
+  # sabnzbd specific setting
+
+  # Update the host_whitelist setting (see https://sabnzbd.org/hostname-check)
+  # with any additional hostname/fqdn entries supplied via the HOST_WHITELIST_ENTRIES
+  # env variable.
+  # NEED this since SABnzbd 2.3.3
+  if [ ! -z "${HOST_WHITELIST_ENTRIES}" ]; then
+      echo "Setting host_whitelist with [${HOST_WHITELIST_ENTRIES}]"
+      sed -i -e "s/^host_whitelist *=.*$/host_whitelist = ${HOSTNAME}, ${HOST_WHITELIST_ENTRIES}/g" ${SERVICE_DATA_PATH}/sabnzbd.ini
+      HOST_WHITELIST=$(sed -n '/^host_whitelist *=/{s/host_whitelist *= *//p;q}' ${SERVICE_DATA_PATH}/sabnzbd.ini)  
+      echo "host_whitelist is now [${HOST_WHITELIST}]"
+  fi
+
   echo "** Run service as user: $SERVICE_USER_NAME ($SERVICE_USER_UID) group: $SERVICE_GROUP_NAME ($SERVICE_GROUP_GID) **"
 fi
 
