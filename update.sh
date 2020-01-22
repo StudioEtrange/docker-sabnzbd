@@ -274,6 +274,14 @@ echo
 echo "******** UPDATE ALL ********"
 # Update all releasese
 rm -Rf "ver"
+
+# copy latest release
+mkdir -p "ver/latest"
+cp -f supervisord* "ver/latest"
+cp -f Dockerfile "ver/latest/Dockerfile"
+cp -f docker-entrypoint.sh "ver/latest/docker-entrypoint.sh"
+
+
 [ "$USE_TAG_AS_RELEASE" = "1" ] && releases=$(github_tags)
 [ ! "$USE_TAG_AS_RELEASE" = "1" ] && releases=$(github_releases)
 
